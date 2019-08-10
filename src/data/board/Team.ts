@@ -9,11 +9,11 @@ class Team {
     constructor(color: string) {
         this.color = color;
         this.pawns = [
-            new MasterPawn(),
-            new StudentPawn(),
-            new StudentPawn(),
-            new StudentPawn(),
-            new StudentPawn(),
+            new MasterPawn(this.color),
+            new StudentPawn(this.color, 1),
+            new StudentPawn(this.color, 2),
+            new StudentPawn(this.color, 3),
+            new StudentPawn(this.color, 4),
         ];
     }
 

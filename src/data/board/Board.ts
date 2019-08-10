@@ -16,10 +16,10 @@ class Board {
     private buildBoard(t1: Team, t2: Team): any[] {
         return [
             [...t1.students.slice(0, 2), t1.master, ...t1.students.slice(2)],
-            new Array(5),
-            new Array(5),
-            new Array(5),
-            [...t1.students.slice(0, 2), t1.master, ...t1.students.slice(2)],
+            [...new Array(5)],
+            [...new Array(5)],
+            [...new Array(5)],
+            [...t2.students.slice(0, 2), t2.master, ...t2.students.slice(2)],
         ];
     }
 }

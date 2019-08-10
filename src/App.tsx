@@ -1,16 +1,15 @@
-import React from 'react';
+import React, {useState} from 'react';
 
-import Renderer from 'render/Renderer';
+import ConsoleCanvas from 'components/ConsoleCanvas';
+
 import Game from 'data/game/Game';
 
 const App: React.FC = () => {
-
-  const renderer = new Renderer();
-  renderer.render(new Game());
+  const [game, setGame] = useState<Game>(new Game());
 
   return (
     <div className="App">
-
+      <ConsoleCanvas game={game} />
     </div>
   );
 }
