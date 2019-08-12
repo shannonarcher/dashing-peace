@@ -1,0 +1,8 @@
+.GameCanvas {
+    display: flex;
+    flex-direction: column;
+
+    .row--flipped {
+        transform: rotate(180deg);
+    }
+}

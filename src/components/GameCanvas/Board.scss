@@ -1,0 +1,52 @@
+.Board {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+
+    .panel {
+        padding: 15px;
+    }
+
+    .grid {
+        width: 200px;
+        height: 200px;
+
+        display: grid;
+        grid-template-columns: 20% 20% 20% 20% 20%;
+        grid-template-rows: 20% 20% 20% 20% 20%;
+        
+        div {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            text-align: center;
+
+            font-size: 20px;
+            cursor: pointer;
+
+            border-top: solid 1px #000;
+            border-left: solid 1px #000;
+
+            &:nth-child(5n) {
+                border-right: solid 1px #000;
+            }
+
+            &:nth-child(n+21) {
+                border-bottom: solid 1px #000;
+            }
+        }
+
+        .color-red {
+            color: red;
+        }
+
+        .color-blue {
+            color: rgb(114, 114, 167);
+        }
+    }
+
+    .Card {
+        width: 100px;
+        height: 100px;
+    }
+}

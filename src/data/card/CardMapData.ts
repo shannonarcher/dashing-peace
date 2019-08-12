@@ -19,6 +19,7 @@ const MapObject = {
         '  x  ',
         '  ox ',
         '  x  ',
+        '     ',
     ],
     mantis: [
         '     ',
