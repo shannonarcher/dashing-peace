@@ -1,0 +1,89 @@
+.debug {
+    .Board {
+        .grid > div {
+            position:relative;
+        }
+
+        .grid-position {
+            display: block;
+            position: absolute;
+            top: 0;
+            right: 0;
+            background: #fff;
+            color: black;
+            font-size: 8px;
+        }
+    }
+}
+
+.Board {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+
+    .grid-position {
+        display: none;
+    }
+
+    .panel {
+        padding: 15px;
+    }
+
+    .grid {
+        $dimension: 6;
+
+        width: 200px;
+        height: 200px;
+
+        display: grid;
+        grid-template-columns: repeat($dimension, 100% / $dimension);
+        grid-template-rows: repeat($dimension, 100% / $dimension);
+        
+        & > div {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            text-align: center;
+
+            font-size: 20px;
+            cursor: pointer;
+
+            border-top: solid 1px #000;
+            border-left: solid 1px #000;
+
+            &:nth-child(-n+6), &:nth-child(6n + 1) {
+                background: #000;
+                color: #fff;
+            }
+
+            &:nth-child(6n) {
+                border-right: solid 1px #000;
+            }
+
+            &:nth-child(n+31) {
+                border-bottom: solid 1px #000;
+            }
+        }
+
+        .color-red {
+            color: red;
+            
+            &.active {
+                text-shadow: 0px 0px 3px red;
+            }
+        }
+
+        .color-blue {
+            color: blue;
+
+            &.active {
+                text-shadow: 0px 0px 3px blue;
+            }
+        }
+    }
+
+    .Card {
+        width: 100px;
+        height: 100px;
+    }
+}
