@@ -1,14 +1,11 @@
 class CardViewModel {
-    readonly name: string;
-    readonly map: string[][];
+  readonly name: string;
+  readonly map: string[][];
 
-    constructor(
-        name: string,
-        map: string[][],
-    ) {
-        this.name = name;
-        this.map = map;
-    }
+  constructor(name: string, map: string[][]) {
+    this.name = name;
+    this.map = map;
+  }
 }
 
 export default CardViewModel;

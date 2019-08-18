@@ -1,21 +1,27 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+
 import './Player.scss';
 import Card from 'view/GameCanvas/Card';
 
-import PlayerModel from 'models/player/Player';
+import PlayerViewModel from 'view-models/player/PlayerViewModel';
 
-interface IPlayerProps {
-    player: PlayerModel;
+interface PlayerProps {
+  player: PlayerViewModel;
 }
 
-const Player: React.FC<IPlayerProps> = ({player}) => {
-    return (
-        <div className="Player">
-            {player.cards.map((card, index) => (
-                <Card key={index} card={card} />
-            ))}
-        </div>
-    );
+const Player: React.FC<PlayerProps> = ({ player }) => {
+  return (
+    <div className="Player">
+      {player.cards.map((card, index) => (
+        <Card key={index} card={card} />
+      ))}
+    </div>
+  );
+};
+
+Player.propTypes = {
+  player: PropTypes.instanceOf(PlayerViewModel).isRequired
 };
 
 export default Player;

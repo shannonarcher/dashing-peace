@@ -12,12 +12,14 @@ jest.mock('models/game/Game', () => {
 jest.mock('view-models/game/GameViewModel');
 jest.mock('view/GameCanvas/GameCanvas', () => {
   return function() {
-    return (
-      <div></div>
-    );
+    return <div></div>;
   };
 });
-jest.mock('view/ConsoleInput/ConsoleInput');
+jest.mock('view/ConsoleInput/ConsoleInput', () => {
+  return function() {
+    return <div></div>;
+  };
+});
 
 it('renders without crashing', () => {
   const div = document.createElement('div');

@@ -1,29 +1,35 @@
 import React from 'react';
-import './Card.scss';
-import CardModel from 'models/card/Card';
+import PropTypes from 'prop-types';
 
-interface ICardProps {
-    card: CardModel;
+import './Card.scss';
+import CardViewModel from 'view-models/card/CardViewModel';
+
+interface CardProps {
+  card: CardViewModel;
 }
 
-const Card: React.FC<ICardProps> = ({card}) => {
-    return (
-        <div className="Card">
-            <div>{ card.name }</div>
-            <div className="Card__layout">
-                {card.map.mapData.map((d: string, j) => d.split('')
-                    .map((c, k) => (
-                        <div 
-                            key={`${j}_${k}`}
-                            className={c === 'x' ? 'moveTo' : c === 'o' ? 'origin' : 'none'}
-                        >
-                            &nbsp;
-                        </div>
-                    ))
-                )}
+const Card: React.FC<CardProps> = ({ card }) => {
+  return (
+    <div className="Card">
+      <div>{card.name}</div>
+      <div className="Card__layout">
+        {/* {card.map.map((d: string, j) =>
+          d.split('').map((c, k) => (
+            <div
+              key={`${j}_${k}`}
+              className={c === 'x' ? 'moveTo' : c === 'o' ? 'origin' : 'none'}
+            >
+              &nbsp;
             </div>
-        </div>
-    );
+          ))
+        )} */}
+      </div>
+    </div>
+  );
+};
+
+Card.propTypes = {
+  card: PropTypes.instanceOf(CardViewModel).isRequired
 };
 
 export default Card;

@@ -1,9 +1,9 @@
 class BoardViewModel {
-    readonly grid: any[];
+  readonly grid: object[];
 
-    constructor(grid: any[]) {
-        this.grid = grid;
-    }
+  constructor(grid: object[]) {
+    this.grid = grid;
+  }
 }
 
 export default BoardViewModel;

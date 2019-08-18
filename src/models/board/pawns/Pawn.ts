@@ -1,19 +1,19 @@
 class Pawn {
-    protected _id: number;
-    protected _color: string;
+  protected _id: number;
+  protected _color: string;
 
-    constructor(color: string) {
-        this._id = 0;
-        this._color = color;
-    }
+  constructor(color: string) {
+    this._id = 0;
+    this._color = color;
+  }
 
-    get id() {
-        return this._id;
-    }
+  get id(): number {
+    return this._id;
+  }
 
-    get color() {
-        return this._color;
-    }
+  get color(): string {
+    return this._color;
+  }
 }
 
 export default Pawn;

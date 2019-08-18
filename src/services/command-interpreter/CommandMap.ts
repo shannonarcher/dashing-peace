@@ -1,11 +1,9 @@
 class CommandMap {
-    readonly move: Function;
+  readonly move: Function;
 
-    constructor(
-        move: Function,
-    ) {
-        this.move = move;
-    }
+  constructor(move: Function) {
+    this.move = move;
+  }
 }
 
 export default CommandMap;
