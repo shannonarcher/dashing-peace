@@ -70,6 +70,11 @@ class Referee {
   }
 
   static judgeWin(board: Board): boolean {
+    return Referee.judgeWayOfTheStone(board) ||
+      Referee.judgeWayOfTheStream(board);
+  }
+
+  static judgeWayOfTheStone(board: Board): boolean {
     const kings = Object.keys(
       new Array<GridSquare>()
         .concat(...board.grid)
@@ -84,6 +89,20 @@ class Referee {
         }, {})
     );
     return kings.length === 1;
+  }
+
+  static judgeWayOfTheStream(board: Board): boolean {
+    const archOfTheTemples = new Array<GridSquare>()
+        .concat(...board.grid)
+        .filter((curr: GridSquare) => !!curr.archOfTheTemple);
+
+    console.log(board.grid, archOfTheTemples);
+
+    return archOfTheTemples.some((curr: GridSquare) => (
+      curr.pawn && 
+      curr.pawn instanceof MasterPawn && 
+      curr.pawn.color !== curr.archOfTheTemple
+    ));
   }
 }
 

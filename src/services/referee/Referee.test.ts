@@ -159,13 +159,35 @@ describe('Referee', () => {
     });
 
     describe('when judging a win', () => {
-        test('a win', () => {
+        test('stone win', () => {
             const { board } = setup();
+
+            const redKing = new MasterPawn('red');
+            Object.defineProperty(redKing, 'color', {value: 'red'});
 
             Object.defineProperty(board, 'grid', {
                 value: [
-                    [{pawn: new MasterPawn('red')}],
+                    [{pawn: redKing}],
                     [{pawn: new StudentPawn('red', 0)}],
+                ],
+            });
+            
+            expect(Referee.judgeWin(board)).toBeTruthy();
+        });
+
+        test('stream win', () => {
+            const { board } = setup();
+
+            const redKing = new MasterPawn('red');
+            Object.defineProperty(redKing, 'color', {value: 'red'});
+            const blueKing = new MasterPawn('blue');
+            Object.defineProperty(blueKing, 'color', {value: 'blue'});
+
+            Object.defineProperty(board, 'grid', {
+                value: [
+                    [{pawn: redKing, archOfTheTemple: 'blue'}],
+                    [{pawn: blueKing}],
+                    [{archOfTheTemple: 'red'}],
                 ],
             });
             

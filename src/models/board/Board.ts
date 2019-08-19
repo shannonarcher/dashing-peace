@@ -4,6 +4,7 @@ import Coordinate from 'models/Coordinate';
 import Player from 'models/player/Player';
 import GridSquare from './GridSquare';
 import BoardViewModel from 'view-models/board/BoardViewModel';
+import MasterPawn from './pawns/MasterPawn';
 
 class Board {
   private _team1: Team;
@@ -47,8 +48,8 @@ class Board {
     // get pawn current position
     const { x: cx, y: cy }: Coordinate = this.findPawn(pawn);
 
-    this.grid[y][x] = new GridSquare(pawn, x, y);
-    this.grid[cy][cx] = new GridSquare(undefined, cx, cy);
+    this.grid[y][x].pawn = pawn;
+    this.grid[cy][cx].pawn = undefined;
   }
 
   static from(coordinate: string): { x: number; y: number } {
@@ -91,7 +92,9 @@ class Board {
       [...new Array(5)],
       [...new Array(5)],
       [...t2.students.slice(0, 2), t2.master, ...t2.students.slice(2)]
-    ].map((row, y) => row.map((cell, x) => new GridSquare(cell, x, y)));
+    ].map((row, y) => row.map((cell, x) => (
+      new GridSquare(cell, x, y, cell instanceof MasterPawn)
+    )));
   }
 }
 

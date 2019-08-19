@@ -6,8 +6,14 @@ export default class GridSquare {
   readonly x: number;
   readonly y: number;
 
-  constructor(pawn: Pawn | undefined, x: number, y: number) {
+  readonly archOfTheTemple?: string;
+
+  constructor(pawn: Pawn | undefined, x: number, y: number, isArchOfTheTemple: boolean = false) {
     this._pawn = pawn;
+
+    if (isArchOfTheTemple && pawn) {
+      this.archOfTheTemple = pawn.color;
+    }
 
     this.x = x;
     this.y = y;
@@ -15,6 +21,10 @@ export default class GridSquare {
 
   get pawn(): Pawn | undefined {
     return this._pawn;
+  }
+
+  set pawn(pawn: Pawn | undefined) {
+    this._pawn = pawn;
   }
 
   get viewModel(): GridSquareViewModel {
