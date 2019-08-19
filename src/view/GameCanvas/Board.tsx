@@ -12,33 +12,31 @@ interface BoardProps {
   card: CardViewModel;
 }
 
-const Board: React.FC<BoardProps> = ({ card }) => {
+const Board: React.FC<BoardProps> = ({ board, card }) => {
   return (
     <div className="Board">
       <div className="panel">
         <div className="grid">
-          {/* {board.grid.map(row =>
-            row.map((gs: GridSquare, index: number) => (
+          {board.grid.map(row =>
+            row.map((cell, index: number) => (
               <div
                 key={index}
                 className={[
-                  gs.pawn ? `color-${gs.pawn.color}` : '',
-                  gs.pawn && gs.pawn.color === board.activeTeam.color
-                    ? 'active'
-                    : ''
+                  cell.color ? `color-${cell.color}` : '',
+                  cell.color === board.activeTeam ? 'active' : ''
                 ].join(' ')}
               >
                 <div className="grid-position">
-                  {gs.x},{gs.y}
+                  {cell.x},{cell.y}
                 </div>
-                {gs.pawn
-                  ? gs.pawn instanceof StudentPawnModel
+                {cell.pawn
+                  ? cell.pawn === 'StudentPawn'
                     ? '♜'
                     : '♚'
-                  : gs.text || ' '}
+                  : cell.text || ' '}
               </div>
             ))
-          )} */}
+          )}
         </div>
       </div>
       <div className="panel">

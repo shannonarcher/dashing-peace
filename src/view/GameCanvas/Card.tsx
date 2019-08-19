@@ -13,8 +13,8 @@ const Card: React.FC<CardProps> = ({ card }) => {
     <div className="Card">
       <div>{card.name}</div>
       <div className="Card__layout">
-        {/* {card.map.map((d: string, j) =>
-          d.split('').map((c, k) => (
+        {card.map.map((row: string[], j) =>
+          row.map((c, k) => (
             <div
               key={`${j}_${k}`}
               className={c === 'x' ? 'moveTo' : c === 'o' ? 'origin' : 'none'}
@@ -22,7 +22,7 @@ const Card: React.FC<CardProps> = ({ card }) => {
               &nbsp;
             </div>
           ))
-        )} */}
+        )}
       </div>
     </div>
   );

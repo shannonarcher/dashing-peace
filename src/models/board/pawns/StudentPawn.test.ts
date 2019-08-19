@@ -5,4 +5,5 @@ test('it should instantiate', () => {
     expect(pawn instanceof StudentPawn).toBeTruthy();
     expect(pawn.color).toBe('red');
     expect(pawn.id).toBe(1);
+    expect(pawn.type).toBe('student');
 });

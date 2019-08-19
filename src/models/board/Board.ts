@@ -30,11 +30,14 @@ class Board {
   }
 
   get viewModel(): BoardViewModel {
-    return new BoardViewModel(this.grid);
+    return new BoardViewModel(
+      this.grid.map(row => row.map((cell: GridSquare) => cell.viewModel)),
+      this.activeTeam.color
+    );
   }
 
   at(x: number, y: number): GridSquare {
-    if (x <= 0 || x >= this.grid[0].length || y <= 0 || y >= this.grid.length) {
+    if (x < 0 || x >= this.grid[0].length || y < 0 || y >= this.grid.length) {
       throw new Error('out of bounds');
     }
     return this.grid[y][x];
@@ -50,15 +53,15 @@ class Board {
 
   static from(coordinate: string): { x: number; y: number } {
     const yMap: { [s: string]: number } = {
-      a: 1,
-      b: 2,
-      c: 3,
-      d: 4,
-      e: 5
+      a: 0,
+      b: 1,
+      c: 2,
+      d: 3,
+      e: 4
     };
 
     const [alpha, num] = coordinate.split('');
-    const x = Number(num);
+    const x = Number(num) - 1;
     const y: number = yMap[alpha];
 
     return {
@@ -83,12 +86,11 @@ class Board {
 
   private buildBoard(t1: Team, t2: Team): Array<GridSquare>[] {
     return [
-      [...new Array(6)].map((v, i) => (i === 0 ? '' : i)),
-      ['a', ...t1.students.slice(0, 2), t1.master, ...t1.students.slice(2)],
-      ['b', ...new Array(5)],
-      ['c', ...new Array(5)],
-      ['d', ...new Array(5)],
-      ['e', ...t2.students.slice(0, 2), t2.master, ...t2.students.slice(2)]
+      [...t1.students.slice(0, 2), t1.master, ...t1.students.slice(2)],
+      [...new Array(5)],
+      [...new Array(5)],
+      [...new Array(5)],
+      [...t2.students.slice(0, 2), t2.master, ...t2.students.slice(2)]
     ].map((row, y) => row.map((cell, x) => new GridSquare(cell, x, y)));
   }
 }

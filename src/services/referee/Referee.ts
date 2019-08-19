@@ -1,8 +1,9 @@
 import Player from 'models/player/Player';
-import Board, { GridSquare } from 'models/board/Board';
+import Board from 'models/board/Board';
 import Pawn from 'models/board/pawns/Pawn';
 import Coordinate from 'models/Coordinate';
 import MasterPawn from 'models/board/pawns/MasterPawn';
+import GridSquare from 'models/board/GridSquare';
 
 class Referee {
   static judgeMove(
@@ -70,19 +71,17 @@ class Referee {
 
   static judgeWin(board: Board): boolean {
     const kings = Object.keys(
-      []
+      new Array<GridSquare>()
         .concat(...board.grid)
-        .filter(
-          (square: GridSquare) =>
-            square.pawn && square.pawn instanceof MasterPawn
-        )
-        .reduce(
-          (acc, curr: { pawn: Pawn }) => ({
-            ...acc,
-            [curr.pawn.color]: true
-          }),
-          {}
-        )
+        .reduce((acc, curr: GridSquare) => {
+          if (curr.pawn && curr.pawn instanceof MasterPawn) {
+            return {
+              ...acc,
+              [curr.pawn.color]: true
+            };
+          }
+          return acc;
+        }, {})
     );
     return kings.length === 1;
   }

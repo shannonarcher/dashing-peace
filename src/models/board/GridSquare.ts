@@ -1,17 +1,13 @@
 import Pawn from './pawns/Pawn';
+import GridSquareViewModel from 'view-models/board/GridSquareViewModel';
 
 export default class GridSquare {
   private _pawn?: Pawn;
-  private _text?: string;
   readonly x: number;
   readonly y: number;
 
-  constructor(contents: string | Pawn | undefined, x: number, y: number) {
-    if (contents instanceof Pawn) {
-      this._pawn = contents;
-    } else if (contents) {
-      this._text = contents.toString();
-    }
+  constructor(pawn: Pawn | undefined, x: number, y: number) {
+    this._pawn = pawn;
 
     this.x = x;
     this.y = y;
@@ -21,7 +17,13 @@ export default class GridSquare {
     return this._pawn;
   }
 
-  get text(): string | undefined {
-    return this._text;
+  get viewModel(): GridSquareViewModel {
+    return new GridSquareViewModel(
+      this.pawn && this.pawn.type,
+      this.pawn && this.pawn.color,
+      undefined,
+      this.x,
+      this.y
+    );
   }
 }
