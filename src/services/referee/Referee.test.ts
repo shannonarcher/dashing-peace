@@ -20,7 +20,13 @@ function setup() {
     const p1 = new Player('red', true, card, card);
     const p2 = new Player('blue', true, card, card);
     Object.defineProperty(p1, 'color', {value: 'red'});
+    Object.defineProperty(p1, 'cards', {
+        get: () => [card, card],
+    });
     Object.defineProperty(p2, 'color', {value: 'blue'});
+    Object.defineProperty(p2, 'cards', {
+        get: () => [card, card],
+    });
     p1.findMatchingCard = jest.fn().mockReturnValue({
         getRelativePosition: () => {},
     });
@@ -156,6 +162,55 @@ describe('Referee', () => {
                 p1, board, 'a1', 'ox', 1,
             )).toBeTruthy();
         });
+    });
+
+    test('judge when no legal moves', () => {
+        const {p1, board, card} = setup();
+
+        card.getPositions = jest.fn().mockImplementation(() => [
+            '', '', ''
+        ]);
+
+        Object.defineProperty(board, 'grid', {
+            value: [
+                [{pawn: {color: 'red'}}, {pawn: {color: 'red'}}],
+                [{}],
+            ],
+        });
+
+        const judgeMoveSpy = jest.spyOn(Referee, 'judgeMove')
+            .mockReturnValue(false);
+
+        expect(Referee.judgeNoLegalMoves(p1, board)).toBeTruthy();
+        
+        judgeMoveSpy.mockRestore();
+    });
+
+    test('judge when legal moves', () => {
+        const {p1, board, card} = setup();
+
+        card.getPositions = jest.fn().mockImplementation(() => [
+            '', '', ''
+        ]);
+
+        Object.defineProperty(board, 'grid', {
+            value: [
+                [{pawn: {color: 'red'}}, {pawn: {color: 'red'}}],
+                [{}],
+            ],
+        });
+
+        const judgeMoveSpy = jest.spyOn(Referee, 'judgeMove')
+            .mockReturnValueOnce(true)
+            .mockReturnValueOnce(false)
+            .mockReturnValueOnce(false)
+            .mockReturnValueOnce(false)
+            .mockReturnValueOnce(true)
+            .mockReturnValueOnce(true);
+
+        expect(Referee.judgeNoLegalMoves(p1, board)).toBeFalsy();
+        
+        judgeMoveSpy.mockRestore();
     });
 
     describe('when judging a win', () => {

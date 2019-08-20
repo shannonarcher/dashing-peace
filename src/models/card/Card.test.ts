@@ -15,6 +15,15 @@ test('it should get the relative coordinate for a move from the card map', () =>
     expect(map.getRelativePosition).toHaveBeenCalledWith(1);
 });
 
+test('it should get the relative coordinate for a move from the card map', () => {
+    const map = new CardMap('ox');
+    map.getPositions = jest.fn();
+
+    const card = new Card('ox', map);
+    card.getPositions();
+    expect(map.getPositions).toHaveBeenCalledWith();
+});
+
 test('it should get a view model', () => {
     const map = new CardMap('ox');
     Object.defineProperty(map, 'mapData', {

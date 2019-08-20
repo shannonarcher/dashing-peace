@@ -129,4 +129,52 @@ describe('Game', () => {
             expect(game.activePlayer).toEqual(game.p1);
         });
     });
+
+    describe('when passing a turn', () => {
+        test('it should pass if not able to move', () => {
+            jest.spyOn(Referee, 'judgeNoLegalMoves').mockReturnValue(true);
+            Player.prototype.findMatchingCard = jest.fn().mockReturnValue({ name: 'a-card' });
+            Player.prototype.swapCard = jest.fn();
+            
+            const game = new Game();
+            game.pass('cardName');
+            expect(game.activePlayer).toEqual(game.p2);
+            expect(Player.prototype.swapCard).toHaveBeenCalled();
+        });
+
+        test('it should throw an error if able to move', () => {
+            jest.spyOn(Referee, 'judgeNoLegalMoves').mockReturnValue(false);
+
+            const game = new Game();
+            expect(() => {
+                game.pass('cardName');
+            }).toThrowError('legal moves exist');
+        });
+
+        test('it should throw an error if no card found', () => {
+            jest.spyOn(Referee, 'judgeNoLegalMoves').mockReturnValue(true);
+            Player.prototype.findMatchingCard = jest.fn().mockReturnValue(undefined);
+            Player.prototype.swapCard = jest.fn();
+            
+            const game = new Game();
+            expect(() => {
+                game.pass('cardName');
+            }).toThrowError('no card matching "cardName" found');
+        });
+    });
+
+    describe('when getting help', () => {
+        test('it should report no legal moves exist', () => {
+            jest.spyOn(Referee, 'judgeNoLegalMoves').mockReturnValue(true);
+            expect(() => {
+                new Game().help();
+            }).toThrowError('no legal moves exist');
+        });
+        test('it should report legal moves exist', () => {
+            jest.spyOn(Referee, 'judgeNoLegalMoves').mockReturnValue(false);
+            expect(() => {
+                new Game().help();
+            }).toThrowError('legal moves exist');
+        });
+    });
 });

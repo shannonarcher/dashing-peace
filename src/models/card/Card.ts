@@ -18,6 +18,10 @@ class Card {
     );
   }
 
+  getPositions(): Coordinate[] {
+    return this.map.getPositions();
+  }
+
   getRelativePosition(position: number): Coordinate {
     return this.map.getRelativePosition(position);
   }

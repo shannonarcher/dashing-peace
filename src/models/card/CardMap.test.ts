@@ -2,6 +2,18 @@ import CardMap from './CardMap';
 import Coordinate from 'models/Coordinate';
 
 describe('CardMap', () => {
+    test('it gets all positions for a map', () => {
+        const oxMap = new CardMap('ox');
+        expect(oxMap.getPositions()).toEqual([
+            new Coordinate(0, 1),
+            new Coordinate(1, 0),
+            new Coordinate(0, -1),
+        ]);
+
+        const emptyMap = new CardMap('empty');
+        expect(emptyMap.getPositions()).toEqual([]);
+    });
+
     describe('when getting the relative coordinates of a move', () => {
         describe('when the move exists', () => {
             test('it gets the relative position', () => {

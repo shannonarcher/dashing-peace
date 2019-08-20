@@ -69,6 +69,23 @@ class Referee {
     return true;
   }
 
+  static judgeNoLegalMoves(
+    player: Player,
+    board: Board,
+  ) : boolean {
+    const gs = new Array<GridSquare>()
+      .concat(...board.grid)
+      .filter((g: GridSquare) => g.pawn && g.pawn.color === player.color);
+    
+    return gs.every((g: GridSquare) => (
+      player.cards.every((card) => (
+        card.getPositions().every((p, index) => (
+          !Referee.judgeMove(player, board, Board.to(g.x, g.y), card.name, index + 1)
+        ))
+      ))
+    ));
+  }
+
   static judgeWin(board: Board): boolean {
     return Referee.judgeWayOfTheStone(board) ||
       Referee.judgeWayOfTheStream(board);
@@ -95,8 +112,6 @@ class Referee {
     const archOfTheTemples = new Array<GridSquare>()
         .concat(...board.grid)
         .filter((curr: GridSquare) => !!curr.archOfTheTemple);
-
-    console.log(board.grid, archOfTheTemples);
 
     return archOfTheTemples.some((curr: GridSquare) => (
       curr.pawn && 

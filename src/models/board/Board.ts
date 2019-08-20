@@ -71,6 +71,11 @@ class Board {
     };
   }
 
+  static to(x: number, y: number): string {
+    const yMap = ['a', 'b', 'c', 'd', 'e'];
+    return `${yMap[y]}${x + 1}`;
+  }
+
   private findPawn(pawn: Pawn): Coordinate {
     const selectedSquare: GridSquare | undefined = new Array<GridSquare>()
       .concat(...this.grid)

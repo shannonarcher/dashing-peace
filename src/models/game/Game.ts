@@ -90,6 +90,32 @@ class Game {
     }
   }
 
+  pass(cardName: string): void {
+    const noLegalMoves = Referee.judgeNoLegalMoves(this.activePlayer, this.board);
+    const playerCard = this.activePlayer.findMatchingCard(cardName);
+    
+    if (noLegalMoves && playerCard) {
+      // swap field card
+      this._fieldCard = this.activePlayer.swapCard(playerCard, this._fieldCard);
+
+      // teardown turn
+      this.completeTurn();
+    } else if (!noLegalMoves) {
+      throw new Error('legal moves exist');
+    } else {
+      throw new Error(`no card matching "${cardName}" found`);
+    }
+  }
+
+  help(): void {
+    const noLegalMoves = Referee.judgeNoLegalMoves(this.activePlayer, this.board);
+    if (noLegalMoves) {
+      throw new Error('no legal moves exist');
+    } else {
+      throw new Error('legal moves exist');
+    }
+  }
+
   private completeTurn(): void {
     const gameComplete = Referee.judgeWin(this.board);
 

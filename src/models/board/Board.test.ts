@@ -83,6 +83,38 @@ test('it should get a coordinate from a string', () => {
     expect(Board.from('e5')).toEqual({ x: 4, y: 4 });
 });
 
+test('it should get a string from a coordinate', () => {
+    expect(Board.to(0, 0)).toEqual('a1');
+    expect(Board.to(1, 0)).toEqual('a2');
+    expect(Board.to(2, 0)).toEqual('a3');
+    expect(Board.to(3, 0)).toEqual('a4');
+    expect(Board.to(4, 0)).toEqual('a5');
+
+    expect(Board.to(0, 1)).toEqual('b1');
+    expect(Board.to(1, 1)).toEqual('b2');
+    expect(Board.to(2, 1)).toEqual('b3');
+    expect(Board.to(3, 1)).toEqual('b4');
+    expect(Board.to(4, 1)).toEqual('b5');
+
+    expect(Board.to(0, 2)).toEqual('c1');
+    expect(Board.to(1, 2)).toEqual('c2');
+    expect(Board.to(2, 2)).toEqual('c3');
+    expect(Board.to(3, 2)).toEqual('c4');
+    expect(Board.to(4, 2)).toEqual('c5');
+
+    expect(Board.to(0, 3)).toEqual('d1');
+    expect(Board.to(1, 3)).toEqual('d2');
+    expect(Board.to(2, 3)).toEqual('d3');
+    expect(Board.to(3, 3)).toEqual('d4');
+    expect(Board.to(4, 3)).toEqual('d5');
+
+    expect(Board.to(0, 4)).toEqual('e1');
+    expect(Board.to(1, 4)).toEqual('e2');
+    expect(Board.to(2, 4)).toEqual('e3');
+    expect(Board.to(3, 4)).toEqual('e4');
+    expect(Board.to(4, 4)).toEqual('e5');
+});
+
 test('it should move the pawn from one position to another', () => {
     const player = new Player('red', true, card, card);
     const board = new Board(player, player);

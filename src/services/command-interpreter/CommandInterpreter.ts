@@ -12,6 +12,11 @@ class CommandInterpreter {
     if (command === 'mv') {
       const [coord, card, position] = args;
       this.actions.move(coord, card, position);
+    } else if (command === 'pass') {
+      const [card] = args;
+      this.actions.pass(card);
+    } else if (command === '?') {
+      this.actions.help();
     }
   }
 }

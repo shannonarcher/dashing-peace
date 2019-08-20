@@ -8,7 +8,21 @@ class CardMap {
     this.mapData = CardMapData[type];
   }
 
-  public getRelativePosition(ordinal: number): Coordinate {
+  getPositions(): Coordinate[] {
+    const flatMap: string = this.mapData.join('');
+    const possiblePositions = flatMap.match(/[x]/g);
+
+    if (!possiblePositions) {
+      return [];
+    }
+
+    return [...new Array(possiblePositions.length)]
+      .map((v, position) => (
+        this.getRelativePosition(position + 1)
+      ));
+  }
+
+  getRelativePosition(ordinal: number): Coordinate {
     const flatMap: string = this.mapData.join('');
 
     const possiblePositions = flatMap.match(/[x]/g);

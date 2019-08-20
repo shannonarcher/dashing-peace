@@ -9,7 +9,7 @@ jest.mock('view-models/card/CardViewModel');
 
 test('it should have other models', () => {
     const viewModel = new GameViewModel(
-        new BoardViewModel([]),
+        new BoardViewModel([], ''),
         new PlayerViewModel('red', []),
         new PlayerViewModel('blue', []),
         new CardViewModel('ox', []),
@@ -23,7 +23,7 @@ test('it should have other models', () => {
 
 test('it should have all the models', () => {
     const viewModel = new GameViewModel(
-        new BoardViewModel([]),
+        new BoardViewModel([], ''),
         new PlayerViewModel('red', []),
         new PlayerViewModel('blue', []),
         new CardViewModel('ox', []),

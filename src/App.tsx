@@ -18,6 +18,14 @@ const App: React.FC = () => {
       (coord: string, cardName: string, position: string): void => {
         game.move(coord, cardName, position);
         setGameState(game.viewModel);
+      },
+      (cardName: string): void => {
+        game.pass(cardName);
+        setGameState(game.viewModel);
+      },
+      () => {
+        game.help();
+        setGameState(game.viewModel);
       }
     )
   );

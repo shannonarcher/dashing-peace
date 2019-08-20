@@ -15,7 +15,8 @@ const MapObject = {
   rooster: ['     ', '   x ', ' xox ', ' x   ', '     '],
   crab: ['     ', '  x  ', 'x o x', '     ', '     '],
   elephant: ['     ', ' x x ', ' xox ', '     ', '     '],
-  dragon: ['     ', 'x   x', '  o  ', ' x x ', '     ']
+  dragon: ['     ', 'x   x', '  o  ', ' x x ', '     '],
+  empty: ['     ','     ','     ','     ','     '],
 };
 
 Object.entries(MapObject).forEach(([key, value]) => {
