@@ -30,7 +30,7 @@ const Board: React.FC<BoardProps> = ({ board, card }) => {
                   {cell.x},{cell.y}
                 </div>
                 {cell.pawn
-                  ? cell.pawn === 'StudentPawn'
+                  ? cell.pawn === 'student'
                     ? '♜'
                     : '♚'
                   : cell.text || ' '}
