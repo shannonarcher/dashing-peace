@@ -1,19 +1,32 @@
-#Dashing Peace
+# Dashing Peace
 
-Actions
+Dashing Peace is a digital version of the board game `Onitama` designed to be played by an AI.
 
-Move Pawn (using Card and option on Card)
+## Status
 
-Commands
+In Progress
 
-Move Pawn
-MV <pawn [1-4m]> <card> <card position [1-n]>
+## Installation
 
-Renderer
+Use npm to install and run `dashing-peace`.
 
-- Print Board
-- Render Pawns
-- Number Pawns
-- Render Cards
-- Render 
+```
+npm i
+```
 
+## Usage
+
+Start the application using 
+```
+npm start
+```
+
+### Move a Pawn
+```
+mv <grid coord> <card name> <card position [1-n]>
+```
+
+### Pass Turn
+```
+pass <card name>
+```
