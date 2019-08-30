@@ -27,7 +27,7 @@ const ConsoleInput: React.FC<ConsoleInputProps> = ({
 };
 
 ConsoleInput.propTypes = {
-  onCommand: PropTypes.func
+  onCommand: PropTypes.func,
 };
 
 export default ConsoleInput;

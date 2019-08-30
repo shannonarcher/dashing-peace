@@ -4,6 +4,7 @@ import Player from 'models/player/Player';
 import Board from 'models/board/Board';
 import Deck from 'models/deck/Deck';
 import Referee from 'services/referee/Referee';
+import Logger from 'services/logger/Logger';
 import * as GameViewModel from 'view-models/game/GameViewModel';
 
 jest.mock('models/board/Board');
@@ -44,23 +45,35 @@ jest.mock('view-models/game/GameViewModel', () => ({
 }));
 
 jest.mock('services/referee/Referee');
+jest.mock('services/logger/Logger', () => {
+    const Logger = function () {};
+    Logger.prototype.log = jest.fn();
+    
+    return {
+        __esModule: true,
+        default: Logger,
+    };
+});
 
 describe('Game', () => {
     test('it should start a new game', () => {
         jest.spyOn(Deck.prototype, 'draw');
 
-        const game = new Game();
+        const logger = new Logger();
+        const game = new Game(logger);
         expect(game.board instanceof Board).toBeTruthy();
         expect(Deck.prototype.draw).toHaveBeenCalledTimes(5);
     });
 
     test('it should have an active player', () => {
-        const game = new Game();
+        const logger = new Logger();
+        const game = new Game(logger);
         expect(game.activePlayer).toBe(game.p1);
     });
 
     test('it should return a view model without a winning player', () => {
-        const game = new Game();
+        const logger = new Logger();
+        const game = new Game(logger);
         game.viewModel;
 
         expect(GameViewModel.default).toHaveBeenCalledWith(
@@ -76,7 +89,8 @@ describe('Game', () => {
         test('it shouldnt move if its not a legal move', () => {
             Referee.judgeMove = jest.fn().mockReturnValue(false);
 
-            const game = new Game();
+            const logger = new Logger();
+            const game = new Game(logger);
             game.move('a1', 'ox', '1');
 
             expect(Player.prototype.movePawn).not.toHaveBeenCalled();
@@ -93,7 +107,8 @@ describe('Game', () => {
                 getRelativePosition: () => ({x: 0, y: 0}),
             });
 
-            const game = new Game();
+            const logger = new Logger();
+            const game = new Game(logger);
             game.move('a1', 'ox', '1');
 
             expect(game.winningPlayer).toBeDefined();
@@ -106,9 +121,8 @@ describe('Game', () => {
                 {},
             );
 
-            expect(() => {
-                game.move('a1', 'ox', '1');
-            }).toThrowError('game complete. start a new game.');
+            game.move('a1', 'ox', '1');
+            expect(logger.log).toHaveBeenCalledWith('game complete. start a new game.');
         }); 
 
         test('it should change active player once turn is complete and noone has won', () => {
@@ -122,7 +136,8 @@ describe('Game', () => {
                 getRelativePosition: () => ({x: 0, y: 0}),
             });
 
-            const game = new Game();
+            const logger = new Logger();
+            const game = new Game(logger);
             game.move('a1', 'ox', '1');
             expect(game.activePlayer).toEqual(game.p2);
             game.move('a1', 'ox', '1');
@@ -136,7 +151,8 @@ describe('Game', () => {
             Player.prototype.findMatchingCard = jest.fn().mockReturnValue({ name: 'a-card' });
             Player.prototype.swapCard = jest.fn();
             
-            const game = new Game();
+            const logger = new Logger();
+            const game = new Game(logger);
             game.pass('cardName');
             expect(game.activePlayer).toEqual(game.p2);
             expect(Player.prototype.swapCard).toHaveBeenCalled();
@@ -145,10 +161,10 @@ describe('Game', () => {
         test('it should throw an error if able to move', () => {
             jest.spyOn(Referee, 'judgeNoLegalMoves').mockReturnValue(false);
 
-            const game = new Game();
-            expect(() => {
-                game.pass('cardName');
-            }).toThrowError('legal moves exist');
+            const logger = new Logger();
+            const game = new Game(logger);
+            game.pass('cardName');
+            expect(logger.log).toHaveBeenCalledWith('legal moves exist');
         });
 
         test('it should throw an error if no card found', () => {
@@ -156,25 +172,25 @@ describe('Game', () => {
             Player.prototype.findMatchingCard = jest.fn().mockReturnValue(undefined);
             Player.prototype.swapCard = jest.fn();
             
-            const game = new Game();
-            expect(() => {
-                game.pass('cardName');
-            }).toThrowError('no card matching "cardName" found');
+            const logger = new Logger();
+            const game = new Game(logger);
+            game.pass('cardName');
+            expect(logger.log).toHaveBeenCalledWith('no card matching "cardName" found');
         });
     });
 
     describe('when getting help', () => {
         test('it should report no legal moves exist', () => {
             jest.spyOn(Referee, 'judgeNoLegalMoves').mockReturnValue(true);
-            expect(() => {
-                new Game().help();
-            }).toThrowError('no legal moves exist');
+            const logger = new Logger();
+            new Game(logger).help();
+            expect(logger.log).toHaveBeenCalledWith('no legal moves exist');
         });
         test('it should report legal moves exist', () => {
             jest.spyOn(Referee, 'judgeNoLegalMoves').mockReturnValue(false);
-            expect(() => {
-                new Game().help();
-            }).toThrowError('legal moves exist');
+            const logger = new Logger();
+            new Game(logger).help();
+            expect(logger.log).toHaveBeenCalledWith('legal moves exist');
         });
     });
 });

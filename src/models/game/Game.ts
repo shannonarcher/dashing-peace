@@ -6,6 +6,7 @@ import Deck from 'models/deck/Deck';
 import Coordinate from 'models/Coordinate';
 
 import Referee from 'services/referee/Referee';
+import Logger from 'services/logger/Logger';
 
 import GameViewModel from 'view-models/game/GameViewModel';
 
@@ -18,8 +19,11 @@ class Game {
   private _fieldCard: Card;
   private _activePlayer: Player;
   private _winningPlayer: Player | undefined;
+  private _logger: Logger;
 
-  constructor(seed: string | undefined = undefined) {
+  constructor(logger: Logger, seed: string | undefined = undefined) {
+    this._logger = logger;
+
     this._deck = new Deck();
     this._deck.shuffle(seed);
 
@@ -53,7 +57,8 @@ class Game {
 
   move(coord: string, cardName: string, position: string): void {
     if (this._winningPlayer) {
-      throw new Error('game complete. start a new game.');
+      this.log('game complete. start a new game.');
+      return;
     }
 
     const legalMove = Referee.judgeMove(
@@ -87,6 +92,8 @@ class Game {
 
       // teardown turn
       this.completeTurn();
+    } else {
+      this.log('invalid move');
     }
   }
 
@@ -101,18 +108,18 @@ class Game {
       // teardown turn
       this.completeTurn();
     } else if (!noLegalMoves) {
-      throw new Error('legal moves exist');
+      this.log('legal moves exist');
     } else {
-      throw new Error(`no card matching "${cardName}" found`);
+      this.log(`no card matching "${cardName}" found`);
     }
   }
 
   help(): void {
     const noLegalMoves = Referee.judgeNoLegalMoves(this.activePlayer, this.board);
     if (noLegalMoves) {
-      throw new Error('no legal moves exist');
+      this.log('no legal moves exist');
     } else {
-      throw new Error('legal moves exist');
+      this.log('legal moves exist');
     }
   }
 
@@ -120,12 +127,19 @@ class Game {
     const gameComplete = Referee.judgeWin(this.board);
 
     if (gameComplete) {
+      this.log('game complete');
       this._winningPlayer = this.activePlayer;
     } else {
       // toggle active player
       this._activePlayer = this._activePlayer === this.p1 ? this.p2 : this.p1;
       this.board.activeTeam = this._activePlayer;
+
+      this.log(`turn complete. ${this._activePlayer.color} teams turn.`);
     }
+  }
+
+  private log(message: String): void {
+    this._logger.log(message);
   }
 }
 

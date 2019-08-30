@@ -20,6 +20,11 @@ jest.mock('view/ConsoleInput/ConsoleInput', () => {
     return <div></div>;
   };
 });
+jest.mock('view/ConsoleOutput/ConsoleOutput', () => {
+  return function() {
+    return <div></div>;
+  };
+});
 
 it('renders without crashing', () => {
   const div = document.createElement('div');
